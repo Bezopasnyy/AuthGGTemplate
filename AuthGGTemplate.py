@@ -11,11 +11,37 @@ GetOS = platform.system()
 GetOSVer = platform.release()
 AllOS = GetOS + " " + GetOSVer
 
-client = Client(api_key="yourapikey", aid="youraid", application_secret="youapplicationsecret")
+client = Client(api_key="authggapikey", aid="authggaid", application_secret="autggapplicationsecret")
 
-lcre = """
-YOUR
+loadinglogo = """
+ _____  ___      ______    __   __  ___      ___        ______      __       ________   __    _____  ___    _______   
+(\"   \|"  \    /    " \  |"  |/  \|  "|    |"  |      /    " \    /""\     |"      "\ |" \  (\"   \|"  \  /" _   "|  
+|.\\   \    |  // ____  \ |'  /    \:  |    ||  |     // ____  \  /    \    (.  ___  :)||  | |.\\   \    |(: ( \___)  
+|: \.   \\  | /  /    ) :)|: /'        |    |:  |    /  /    ) :)/' /\  \   |: \   ) |||:  | |: \.   \\  | \/ \       
+|.  \    \. |(: (____/ //  \//  /\'    |     \  |___(: (____/ ////  __'  \  (| (___\ |||.  | |.  \    \. | //  \ ___  
+|    \    \ | \        /   /   /  \\   |    ( \_|:  \\        //   /  \\  \ |:       :)/\  |\|    \    \ |(:   _(  _| 
+ \___|\____\)  \"_____/   |___/    \___|     \_______)\"_____/(___/    \___)(________/(__\_|_)\___|\____\) \_______)   
+"""
+
+lcre = """                                                         
+LOADING
 LOGO
+HERE                                                                                                                                          
+"""
+
+WelcomeToProgram = """
+ __      __       .__                                ___________                 
+/  \    /  \ ____ |  |   ____  ____   _____   ____   \__    ___/___              
+\   \/\/   // __ \|  | _/ ___\/  _ \ /     \_/ __ \    |    | /  _ \             
+ \        /\  ___/|  |_\  \__(  <_> )  Y Y  \  ___/    |    |(  <_> )            
+  \__/\  /  \___  >____/\___  >____/|__|_|  /\___  >   |____| \____/             
+       \/       \/          \/            \/     \/                              
+___________.__             __________                                            
+\__    ___/|  |__   ____   \______   \_______  ____   ________________    _____  
+  |    |   |  |  \_/ __ \   |     ___/\_  __ \/  _ \ / ___\_  __ \__  \  /     \ 
+  |    |   |   Y  \  ___/   |    |     |  | \(  <_> ) /_/  >  | \// __ \|  Y Y  \
+  |____|   |___|  /\___  >  |____|     |__|   \____/\___  /|__|  (____  /__|_|  /
+                \/     \/                          /_____/            \/      \/ 
 """
 
 OptionList = """
@@ -32,7 +58,7 @@ def LoginPage():
 
     try:
         client.login(username=LoiginUsername, password=LoginPassword)
-        DiscordWebhook = "webhookgoeshere"
+        DiscordWebhook = "discordwebhook"
         logembed = {
             "title": "Login Detected",
             "description": LoiginUsername + " Has Logged In",
@@ -40,7 +66,7 @@ def LoginPage():
         }
 
         logdata = {
-            "username": "Login Bot",
+            "username": "LOADER NOTIFY",
             "embeds": [
                 logembed
             ],
@@ -48,10 +74,17 @@ def LoginPage():
 
         requests.post(DiscordWebhook, json=logdata)
         print("You Are Logged In As " + LoiginUsername)
-        # RUN CODE HERE LOL
-    except Exception as cheese:
-        print(cheese)
+        WelcomeUser()
+    except Exception as Cheese:
+        print(str(Cheese) + " Please try again\n")
+        FailedLoginWebhook = "discordwebhooklogger" # THIS CAN BE IN A PRIVATE CHANNEL
+        failedlogin = {
+            "username": "discordwebhookusername",
+            "content": LoiginUsername + " Has Failed To Login \n" + str(Cheese)
+        }
 
+        requests.post(FailedLoginWebhook, json=failedlogin)
+        LoginPage()
 
 def RegisterPage():
     RegisterEmail = input("Email: ")
@@ -62,7 +95,7 @@ def RegisterPage():
     try:
         client.register(email=RegisterEmail, username=RegisterUsername, password=RegisterPassword, license_key=RegisterLicenseKey)
         print("Registerd " + RegisterUsername)
-        Webhook = "yourwebhook"
+        Webhook = "discordwebhook"
         regdata = {
             "username": "webhookusername",
             "content": RegisterUsername + " Has Registered On " + AllOS 
@@ -163,9 +196,32 @@ def AdminPage():
         os.system("cls")
         AdminPage()
 
-
+def WelcomeUser():
+    print(WelcomeToProgram)
+    time.sleep(5)
+    # RUN CODE AFTER LOGIN
 
 def ChooseOption():
+
+    os.system("title Logged In As " + str(getpass.getuser()))
+    print(lcre)
+    Option = input(OptionList)
+
+    if Option == "1":
+        LoginPage()
+    elif Option == "2":
+        RegisterPage()
+    elif Option == "3":
+        ResetPassword()
+    elif Option == "4":
+        AdminPage
+    else:
+        print("Invalid Option")
+        time.sleep(2)
+        os.system("cls")
+        ChooseOption()
+
+def LinuxChooseOptions():
 
     print(lcre)
     Option = input(OptionList)
@@ -177,25 +233,51 @@ def ChooseOption():
     elif Option == "3":
         ResetPassword()
     elif Option == "4":
-        AdminPage()
+        if GetOS == "Windows":
+            AdminPage()
+        else:
+            print("Admin Page Does Not Work On Your Current OS")
+            time.sleep(2)
+            LinuxChooseOptions
     else:
         print("Invalid Option")
         time.sleep(2)
-        os.system("cls")
-        ChooseOption()
-
+        os.system("clear")
+        LinuxChooseOptions()
 
 def lol():
     User = getpass.getuser()
     print("Welcome " + User)
+    print(loadinglogo)
     print(lcre)
     print("Coded By The Bezopasnyy")
     time.sleep(3)
     os.system("cls")
     ChooseOption()
 
+def linuxlol():
+    User = getpass.getuser()
+    print("Welcome " + User)
+    print(loadinglogo)
+    print(lcre)
+    print("Coded By The Bezopasnyy")
+    time.sleep(3)
+    os.system("clear")
+    LinuxChooseOptions()
+
+try:
+    requests.post("https://www.discord.com")
+except Exception as OkConnection:
+    print("PLESE ENSURE YOU ARE CONNECTED TO THE INTERNET AND YOUR FIREWALL IS NOT BLOCKING ANY REQUESTS TO DISCORD \n" + str(OkConnection))
+    time.sleep(2)
+    os.sys.exit(0)
+
 if GetOS == "Windows":
     lol()
+elif GetOS == "Linux":
+    linuxlol()
+elif GetOS == "Darwin":
+    linuxlol()
 else:
     print("YOUR OS IS NOT SUPPORTED SORRY")
     os.sys.exit(0)
